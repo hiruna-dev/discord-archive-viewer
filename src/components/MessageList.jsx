@@ -3,7 +3,7 @@ import './MessageList.css';
 
 const GROUP_THRESHOLD_MS = 7 * 60 * 1000; // 7 minutes — same as Discord
 
-export default function MessageList({ messages }) {
+export default function MessageList({ messages, sortOrder = 'asc' }) {
     if (!messages || messages.length === 0) {
         return (
             <div className="message-list message-list--empty">
@@ -12,10 +12,11 @@ export default function MessageList({ messages }) {
         );
     }
 
-    // Sort by timestamp ascending (BST would have already done this, but ensure it)
-    const sorted = [...messages].sort(
-        (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
-    );
+    // Sort by timestamp, direction controlled by sortOrder
+    const sorted = [...messages].sort((a, b) => {
+        const diff = new Date(a.timestamp) - new Date(b.timestamp);
+        return sortOrder === 'asc' ? diff : -diff;
+    });
 
     // Build grouped structure: each message knows if it starts a new group
     const enriched = sorted.map((msg, i) => {

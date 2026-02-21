@@ -106,3 +106,27 @@
     color: var(--interactive-hover);
     border-color: var(--text-muted);
 }
+
+/* Sort toggle button */
+.sort-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: transparent;
+    border: 1px solid #4e505a;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    font-family: var(--font-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+
+.sort-btn:hover {
+    background: var(--bg-modifier-hover);
+    color: var(--brand-500, #5865f2);
+    border-color: var(--brand-500, #5865f2);
+}

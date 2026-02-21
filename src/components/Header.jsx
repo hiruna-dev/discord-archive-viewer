@@ -1,6 +1,6 @@
 import './Header.css';
 
-export default function Header({ archive, onReset }) {
+export default function Header({ archive, onReset, sortOrder, onToggleSort }) {
     const { channelName, createdAt, messages } = archive;
 
     const formattedDate = createdAt
@@ -29,6 +29,18 @@ export default function Header({ archive, onReset }) {
                 </div>
             </div>
             <div className="header-right">
+                <button
+                    className="sort-btn"
+                    onClick={onToggleSort}
+                    title={sortOrder === 'asc' ? 'Showing oldest first — click to show newest first' : 'Showing newest first — click to show oldest first'}
+                    id="sort-button"
+                >
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true"
+                        style={{ transform: sortOrder === 'asc' ? 'scaleY(1)' : 'scaleY(-1)', transition: 'transform 0.2s' }}>
+                        <path d="M3 18h6v-2H3v2zm0-5h12v-2H3v2zm0-7v2h18V6H3z" />
+                    </svg>
+                    {sortOrder === 'asc' ? 'Oldest first' : 'Newest first'}
+                </button>
                 <button className="reset-btn" onClick={onReset} title="Load a different file" id="reset-button">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
                         <path d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" />

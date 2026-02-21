@@ -7,6 +7,9 @@ import './App.css';
 export default function App() {
     const [archive, setArchive] = useState(null);
     const [error, setError] = useState(null);
+    const [sortOrder, setSortOrder] = useState('asc');
+
+    const toggleSort = () => setSortOrder(o => o === 'asc' ? 'desc' : 'asc');
 
     const handleFile = useCallback((file) => {
         setError(null);
@@ -64,8 +67,8 @@ export default function App() {
         <div className="app-shell">
             {archive ? (
                 <div className="chat-layout">
-                    <Header archive={archive} onReset={handleReset} />
-                    <MessageList messages={archive.messages} />
+                    <Header archive={archive} onReset={handleReset} sortOrder={sortOrder} onToggleSort={toggleSort} />
+                    <MessageList messages={archive.messages} sortOrder={sortOrder} />
                 </div>
             ) : (
                 <div className="landing">
