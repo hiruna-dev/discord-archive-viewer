@@ -17,17 +17,26 @@ export default function App() {
 
                 let archive;
                 if (Array.isArray(raw)) {
-                    // Bot exported a bare messages array — wrap it
+                    // Bare messages array — wrap it
                     archive = {
-                        guildId: null,
-                        channelId: null,
-                        archivedAt: null,
-                        requestedBy: null,
+                        channelName: null,
+                        createdAt: null,
                         messages: raw,
                     };
+                } else if (raw && Array.isArray(raw.data)) {
+                    // New format: { channelName, createdAt, data }
+                    archive = {
+                        channelName: raw.channelName || null,
+                        createdAt: raw.createdAt || null,
+                        messages: raw.data,
+                    };
                 } else if (raw && Array.isArray(raw.messages)) {
-                    // Full archive object
-                    archive = raw;
+                    // Legacy format
+                    archive = {
+                        channelName: raw.channelName || raw.channelId || null,
+                        createdAt: raw.createdAt || raw.archivedAt || null,
+                        messages: raw.messages,
+                    };
                 } else {
                     throw new Error('Invalid format: expected a messages array or an archive object.');
                 }

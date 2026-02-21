@@ -1,19 +1,18 @@
 import './Header.css';
 
 export default function Header({ archive, onReset }) {
-    const { guildId, channelId, archivedAt, requestedBy, messages } = archive;
+    const { channelName, createdAt, messages } = archive;
 
-    const formattedDate = archivedAt
-        ? new Date(archivedAt).toLocaleString('en-US', {
+    const formattedDate = createdAt
+        ? new Date(createdAt).toLocaleString('en-US', {
             year: 'numeric', month: 'short', day: 'numeric',
             hour: '2-digit', minute: '2-digit',
         })
         : null;
 
-    const channelDisplay = channelId || 'archive';
+    const channelDisplay = channelName || 'archive';
     const metaParts = [
         `${messages.length} message${messages.length !== 1 ? 's' : ''}`,
-        requestedBy ? `Requested by ${requestedBy}` : null,
         formattedDate ? `Archived ${formattedDate}` : null,
     ].filter(Boolean).join(' • ');
 
@@ -30,14 +29,6 @@ export default function Header({ archive, onReset }) {
                 </div>
             </div>
             <div className="header-right">
-                {guildId && (
-                    <span className="guild-badge" title={`Guild ID: ${guildId}`}>
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" />
-                        </svg>
-                        {guildId}
-                    </span>
-                )}
                 <button className="reset-btn" onClick={onReset} title="Load a different file" id="reset-button">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
                         <path d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" />

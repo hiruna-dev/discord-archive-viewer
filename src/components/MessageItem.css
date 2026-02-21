@@ -95,8 +95,8 @@
 .msg-compact-time {
     position: absolute;
     left: 16px;
-    width: 56px;
-    /* same as avatar (40) + gap (16) */
+    width: 48px;
+    /* narrower than the 72px gutter to leave an 8px gap before message text */
     font-size: 0.6875rem;
     color: var(--text-muted);
     text-align: right;
