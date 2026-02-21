@@ -1,0 +1,42 @@
+.message-list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 0 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-list--empty {
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-text {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+}
+
+.messages-start-divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 24px 16px 16px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.messages-start-divider::before,
+.messages-start-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #3f4147;
+}
+
+.messages-end-spacer {
+    height: 32px;
+    flex-shrink: 0;
+}

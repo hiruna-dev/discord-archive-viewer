@@ -1,0 +1,68 @@
+import { useState, useCallback } from 'react';
+import DropZone from './components/DropZone';
+import Header from './components/Header';
+import MessageList from './components/MessageList';
+import './App.css';
+
+export default function App() {
+    const [archive, setArchive] = useState(null);
+    const [error, setError] = useState(null);
+
+    const handleFile = useCallback((file) => {
+        setError(null);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const raw = JSON.parse(e.target.result);
+
+                let archive;
+                if (Array.isArray(raw)) {
+                    // Bot exported a bare messages array — wrap it
+                    archive = {
+                        guildId: null,
+                        channelId: null,
+                        archivedAt: null,
+                        requestedBy: null,
+                        messages: raw,
+                    };
+                } else if (raw && Array.isArray(raw.messages)) {
+                    // Full archive object
+                    archive = raw;
+                } else {
+                    throw new Error('Invalid format: expected a messages array or an archive object.');
+                }
+
+                if (archive.messages.length === 0) {
+                    throw new Error('This archive contains no messages.');
+                }
+
+                setArchive(archive);
+            } catch (err) {
+                setError(err.message || 'Failed to parse JSON file.');
+                setArchive(null);
+            }
+        };
+        reader.onerror = () => setError('Could not read the file.');
+        reader.readAsText(file);
+    }, []);
+
+    const handleReset = () => {
+        setArchive(null);
+        setError(null);
+    };
+
+    return (
+        <div className="app-shell">
+            {archive ? (
+                <div className="chat-layout">
+                    <Header archive={archive} onReset={handleReset} />
+                    <MessageList messages={archive.messages} />
+                </div>
+            ) : (
+                <div className="landing">
+                    <DropZone onFile={handleFile} error={error} />
+                </div>
+            )}
+        </div>
+    );
+}
